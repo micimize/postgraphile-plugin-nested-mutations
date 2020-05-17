@@ -1,0 +1,814 @@
+type Child {
+  id: Int!
+  parentId: Int
+  name: String!
+
+  """Reads a single `Parent` that is related to this `Child`."""
+  parentByParentId: Parent
+
+  """Reads and enables pagination through a set of `Grandchild`."""
+  grandchildrenByChildId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Grandchild`."""
+    orderBy: [GrandchildrenOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GrandchildCondition
+  ): GrandchildrenConnection!
+}
+
+"""
+A condition to be used against `Child` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ChildCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `parentId` field."""
+  parentId: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Child`"""
+input ChildInput {
+  id: Int
+  parentId: Int
+  name: String!
+}
+
+"""
+Represents an update to a `Child`. Fields that are set will be updated.
+"""
+input ChildPatch {
+  id: Int
+  parentId: Int
+  name: String
+}
+
+"""A connection to a list of `Child` values."""
+type ChildrenConnection {
+  """A list of `Child` objects."""
+  nodes: [Child]!
+
+  """
+  A list of edges which contains the `Child` and cursor to aid in pagination.
+  """
+  edges: [ChildrenEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Child` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Child` edge in the connection."""
+type ChildrenEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Child` at the end of the edge."""
+  node: Child
+}
+
+"""Methods to use when ordering `Child`."""
+enum ChildrenOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  PARENT_ID_ASC
+  PARENT_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the create `Child` mutation."""
+input CreateChildInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Child` to be created by this mutation."""
+  child: ChildInput!
+}
+
+"""The output of our create `Child` mutation."""
+type CreateChildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Child` that was created by this mutation."""
+  child: Child
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Parent` that is related to this `Child`."""
+  parentByParentId: Parent
+
+  """An edge for our `Child`. May be used by Relay 1."""
+  childEdge(
+    """The method to use when ordering `Child`."""
+    orderBy: [ChildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChildrenEdge
+}
+
+"""All input for the create `Grandchild` mutation."""
+input CreateGrandchildInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Grandchild` to be created by this mutation."""
+  grandchild: GrandchildInput!
+}
+
+"""The output of our create `Grandchild` mutation."""
+type CreateGrandchildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Grandchild` that was created by this mutation."""
+  grandchild: Grandchild
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Child` that is related to this `Grandchild`."""
+  childByChildId: Child
+
+  """An edge for our `Grandchild`. May be used by Relay 1."""
+  grandchildEdge(
+    """The method to use when ordering `Grandchild`."""
+    orderBy: [GrandchildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GrandchildrenEdge
+}
+
+"""All input for the create `Parent` mutation."""
+input CreateParentInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Parent` to be created by this mutation."""
+  parent: ParentInput!
+}
+
+"""The output of our create `Parent` mutation."""
+type CreateParentPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Parent` that was created by this mutation."""
+  parent: Parent
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Parent`. May be used by Relay 1."""
+  parentEdge(
+    """The method to use when ordering `Parent`."""
+    orderBy: [ParentsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ParentsEdge
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""All input for the `deleteChildById` mutation."""
+input DeleteChildByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Child` mutation."""
+type DeleteChildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Child` that was deleted by this mutation."""
+  child: Child
+  deletedChildId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Parent` that is related to this `Child`."""
+  parentByParentId: Parent
+
+  """An edge for our `Child`. May be used by Relay 1."""
+  childEdge(
+    """The method to use when ordering `Child`."""
+    orderBy: [ChildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChildrenEdge
+}
+
+"""All input for the `deleteGrandchildById` mutation."""
+input DeleteGrandchildByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Grandchild` mutation."""
+type DeleteGrandchildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Grandchild` that was deleted by this mutation."""
+  grandchild: Grandchild
+  deletedGrandchildId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Child` that is related to this `Grandchild`."""
+  childByChildId: Child
+
+  """An edge for our `Grandchild`. May be used by Relay 1."""
+  grandchildEdge(
+    """The method to use when ordering `Grandchild`."""
+    orderBy: [GrandchildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GrandchildrenEdge
+}
+
+"""All input for the `deleteParentById` mutation."""
+input DeleteParentByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Parent` mutation."""
+type DeleteParentPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Parent` that was deleted by this mutation."""
+  parent: Parent
+  deletedParentId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Parent`. May be used by Relay 1."""
+  parentEdge(
+    """The method to use when ordering `Parent`."""
+    orderBy: [ParentsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ParentsEdge
+}
+
+type Grandchild {
+  id: Int!
+  childId: Int!
+  name: String!
+
+  """Reads a single `Child` that is related to this `Grandchild`."""
+  childByChildId: Child
+}
+
+"""
+A condition to be used against `Grandchild` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input GrandchildCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `childId` field."""
+  childId: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Grandchild`"""
+input GrandchildInput {
+  id: Int
+  childId: Int!
+  name: String!
+}
+
+"""
+Represents an update to a `Grandchild`. Fields that are set will be updated.
+"""
+input GrandchildPatch {
+  id: Int
+  childId: Int
+  name: String
+}
+
+"""A connection to a list of `Grandchild` values."""
+type GrandchildrenConnection {
+  """A list of `Grandchild` objects."""
+  nodes: [Grandchild]!
+
+  """
+  A list of edges which contains the `Grandchild` and cursor to aid in pagination.
+  """
+  edges: [GrandchildrenEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Grandchild` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Grandchild` edge in the connection."""
+type GrandchildrenEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Grandchild` at the end of the edge."""
+  node: Grandchild
+}
+
+"""Methods to use when ordering `Grandchild`."""
+enum GrandchildrenOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CHILD_ID_ASC
+  CHILD_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Child`."""
+  createChild(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateChildInput!
+  ): CreateChildPayload
+
+  """Creates a single `Grandchild`."""
+  createGrandchild(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateGrandchildInput!
+  ): CreateGrandchildPayload
+
+  """Creates a single `Parent`."""
+  createParent(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateParentInput!
+  ): CreateParentPayload
+
+  """Updates a single `Child` using a unique key and a patch."""
+  updateChildById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateChildByIdInput!
+  ): UpdateChildPayload
+
+  """Updates a single `Grandchild` using a unique key and a patch."""
+  updateGrandchildById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateGrandchildByIdInput!
+  ): UpdateGrandchildPayload
+
+  """Updates a single `Parent` using a unique key and a patch."""
+  updateParentById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateParentByIdInput!
+  ): UpdateParentPayload
+
+  """Deletes a single `Child` using a unique key."""
+  deleteChildById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteChildByIdInput!
+  ): DeleteChildPayload
+
+  """Deletes a single `Grandchild` using a unique key."""
+  deleteGrandchildById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteGrandchildByIdInput!
+  ): DeleteGrandchildPayload
+
+  """Deletes a single `Parent` using a unique key."""
+  deleteParentById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteParentByIdInput!
+  ): DeleteParentPayload
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+type Parent {
+  id: Int!
+  name: String!
+
+  """Reads and enables pagination through a set of `Child`."""
+  childrenByParentId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Child`."""
+    orderBy: [ChildrenOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChildCondition
+  ): ChildrenConnection!
+}
+
+"""
+A condition to be used against `Parent` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ParentCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Parent`"""
+input ParentInput {
+  id: Int
+  name: String!
+}
+
+"""
+Represents an update to a `Parent`. Fields that are set will be updated.
+"""
+input ParentPatch {
+  id: Int
+  name: String
+}
+
+"""A connection to a list of `Parent` values."""
+type ParentsConnection {
+  """A list of `Parent` objects."""
+  nodes: [Parent]!
+
+  """
+  A list of edges which contains the `Parent` and cursor to aid in pagination.
+  """
+  edges: [ParentsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Parent` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Parent` edge in the connection."""
+type ParentsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Parent` at the end of the edge."""
+  node: Parent
+}
+
+"""Methods to use when ordering `Parent`."""
+enum ParentsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""The root query type which gives access points into the data universe."""
+type Query {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """Reads and enables pagination through a set of `Child`."""
+  allChildren(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Child`."""
+    orderBy: [ChildrenOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChildCondition
+  ): ChildrenConnection
+
+  """Reads and enables pagination through a set of `Grandchild`."""
+  allGrandchildren(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Grandchild`."""
+    orderBy: [GrandchildrenOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GrandchildCondition
+  ): GrandchildrenConnection
+
+  """Reads and enables pagination through a set of `Parent`."""
+  allParents(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Parent`."""
+    orderBy: [ParentsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ParentCondition
+  ): ParentsConnection
+  childById(id: Int!): Child
+  grandchildById(id: Int!): Grandchild
+  parentById(id: Int!): Parent
+}
+
+"""All input for the `updateChildById` mutation."""
+input UpdateChildByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Child` being updated.
+  """
+  childPatch: ChildPatch!
+  id: Int!
+}
+
+"""The output of our update `Child` mutation."""
+type UpdateChildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Child` that was updated by this mutation."""
+  child: Child
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Parent` that is related to this `Child`."""
+  parentByParentId: Parent
+
+  """An edge for our `Child`. May be used by Relay 1."""
+  childEdge(
+    """The method to use when ordering `Child`."""
+    orderBy: [ChildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChildrenEdge
+}
+
+"""All input for the `updateGrandchildById` mutation."""
+input UpdateGrandchildByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Grandchild` being updated.
+  """
+  grandchildPatch: GrandchildPatch!
+  id: Int!
+}
+
+"""The output of our update `Grandchild` mutation."""
+type UpdateGrandchildPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Grandchild` that was updated by this mutation."""
+  grandchild: Grandchild
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Child` that is related to this `Grandchild`."""
+  childByChildId: Child
+
+  """An edge for our `Grandchild`. May be used by Relay 1."""
+  grandchildEdge(
+    """The method to use when ordering `Grandchild`."""
+    orderBy: [GrandchildrenOrderBy!] = [PRIMARY_KEY_ASC]
+  ): GrandchildrenEdge
+}
+
+"""All input for the `updateParentById` mutation."""
+input UpdateParentByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Parent` being updated.
+  """
+  parentPatch: ParentPatch!
+  id: Int!
+}
+
+"""The output of our update `Parent` mutation."""
+type UpdateParentPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Parent` that was updated by this mutation."""
+  parent: Parent
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Parent`. May be used by Relay 1."""
+  parentEdge(
+    """The method to use when ordering `Parent`."""
+    orderBy: [ParentsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ParentsEdge
+}
